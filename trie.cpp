@@ -65,13 +65,17 @@ private:
         if (!isalpha(prefix[depth])) return false;
 
         int index = tolower(prefix[depth]) - 'a';
-        if (node->children[index] && remove_prefix(node->children[index], prefix, depth + 1)) {
-            delete node->children[index];
+        Node* child = node->children[index];
+
+        if (child == nullptr) return false;
+
+        if (remove_prefix(child, prefix, depth + 1)) {
+            delete child;
             node->children[index] = nullptr;
             return !node->is_leaf && is_empty(node);
-        } else {
-            return false;
-        }
+        } 
+
+        return false;
     }
 
     void print(Node* node, string current) {
