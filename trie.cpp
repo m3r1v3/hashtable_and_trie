@@ -53,6 +53,26 @@ private:
         }
     }
 
+    bool remove_prefix(Node* node, const string& prefix, int depth) {
+        if (!node) return false;
+
+        if (depth == prefix.length()) {
+            delete_subtree(node);
+            return true;
+        }
+
+        if (!isalpha(prefix[depth])) return false;
+
+        int index = tolower(prefix[depth]) - 'a';
+        if (node->children[index] && remove_prefix(node->children[index], prefix, depth + 1)) {
+            delete node->children[index];
+            node->children[index] = nullptr;
+            return !node->is_leaf && is_empty(node);
+        } else {
+            return false;
+        }
+    }
+
     void print(Node* node, string current) {
         if (node->is_leaf) cout << current << "\n";
 
@@ -126,6 +146,10 @@ public:
 
     void remove(string word) {
         remove(root, word, 0);
+    }
+
+    void remove_prefix(string prefix) {
+        remove_prefix(root, prefix, 0);
     }
 
     vector<string> get_words() {
