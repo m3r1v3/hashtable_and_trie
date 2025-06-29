@@ -19,14 +19,14 @@ struct HashTable {
 	}
 
 	void insert(int key) {
-		int index = get_hash(key);
+		int hash = get_hash(key);
 		int i = 0;
-		int new_index;
+		int index;
 
 		while (i < CAPABILITY) {
-			new_index = (index + i * i) % CAPABILITY;
-			if (table[new_index] == EMPTY) {
-				table[new_index] = key;
+			index = (hash + i * i) % CAPABILITY;
+			if (table[index] == EMPTY) {
+				table[index] = key;
 				return;
 			}
 			i++;

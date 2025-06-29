@@ -3,34 +3,39 @@
 
 using namespace std;
 
-const int SIZE = 16;
+const int CAPABILITY = 16;
 const int EMPTY = '\0';
 
 struct HashTable {
 	vector<char> table;
 
 	HashTable() {
-		table.resize(SIZE, EMPTY);
+		table.resize(CAPABILITY, EMPTY);
 	}
 
 	int get_hash(char ch) {
-		return (11 * (tolower(ch) - 'a' + 1)) % SIZE;
+		return (11 * (tolower(ch) - 'a' + 1)) % CAPABILITY;
 	}
 
 	void insert(char ch) {
-		int index = get_hash(ch);
+		int hash = get_hash(ch);
 		int i = 0;
+		int new_index;
 
-		while (table[(index+i) % SIZE] != EMPTY && i < SIZE) {
+		while (i < CAPABILITY) {
+			index = (hash+i) % CAPABILITY;
+			if (table[index] == EMPTY) {
+				table[index] = ch;
+				return;
+			}
 			i++;
 		}
 
-		if (i < SIZE) table[(index + i) % SIZE] = ch;
-		else cout << "Table is full.\n";
+		cout << "Table is full.\n";
 	}
 
 	void print() {
-		for (int i = 0; i < SIZE; i++)
+		for (int i = 0; i < CAPABILITY; i++)
 			if (table[i] != EMPTY) {
 				cout << i << ": " << table[i] << "\n";
 			} else {

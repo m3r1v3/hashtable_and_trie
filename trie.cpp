@@ -33,24 +33,25 @@ private:
 
     bool remove(Node* node, string word, int depth) {
         if (depth == word.length()) {
-            if (node->is_leaf) {
-                node->is_leaf = false;
-                return is_empty(node);
-            } else {
-                return false;
-            }
+            if (!node->is_leaf) return false;
+            node->is_leaf = false;
+            return is_empty(node);
         }
 
         if (!isalpha(word[depth])) return false;
 
         int index = tolower(word[depth]) - 'a';
-        if (node->children[index] && remove(node->children[index], word, depth + 1)) {
-            delete node->children[index];
+        Node* child = node->children[index];
+
+        if (child == nullptr) return false;
+
+        if (remove(child, word, depth + 1)) {
+            delete child;
             node->children[index] = nullptr;
-            return node->is_leaf && is_empty(node);
-        } else {
-            return false;
+            return !node->is_leaf && is_empty(node);
         }
+
+        return false;
     }
 
     bool remove_prefix(Node* node, const string& prefix, int depth) {
