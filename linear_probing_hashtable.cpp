@@ -20,7 +20,7 @@ struct HashTable {
 	void insert(char ch) {
 		int hash = get_hash(ch);
 		int i = 0;
-		int new_index;
+		int index;
 
 		while (i < CAPABILITY) {
 			index = (hash+i) % CAPABILITY;
