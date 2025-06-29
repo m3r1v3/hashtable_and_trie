@@ -41,7 +41,7 @@ private:
             }
         }
 
-        if (!isalpha(word[depth)) return false;
+        if (!isalpha(word[depth])) return false;
 
         int index = tolower(word[depth]) - 'a';
         if (node->children[index] && remove(node->children[index], word, depth + 1)) {
