@@ -41,6 +41,8 @@ private:
             }
         }
 
+        if (!isalpha(word[depth)) return false;
+
         int index = tolower(word[depth]) - 'a';
         if (node->children[index] && remove(node->children[index], word, depth + 1)) {
             delete node->children[index];
@@ -62,7 +64,7 @@ private:
 
     bool is_empty(Node* node) {
         for (int i = 0; i < ALPHABET_SIZE; i++) {
-            if (!node->children[i])
+            if (node->children[i])
                 return false;
         }
         return true;
@@ -104,7 +106,7 @@ public:
     bool search(string word) {
         Node* current = root;
         for (char ch : word) {
-            if (!isalpha(ch)) continue;
+            if (!isalpha(ch)) return false;
 
             int index = tolower(ch) - 'a';
             if (current->children[index] == nullptr) 
